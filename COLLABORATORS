@@ -1,6 +1,9 @@
 Stack Overflow, https://stackoverflow.com/questions/48193502/access-a-particular-field-in-arbitrarily-nested-json-data, Helped me understand how to access data within a JSON file
 Kyle Roller, kroller@ou.edu, Helped me understand how to access data from specific fields in a JSON file
 Stack Overflow, https://stackoverflow.com/questions/973473/getting-a-list-of-all-subdirectories-in-the-current-directory/38245063, Helped me understand how to find all subdirectories of a directory
-
+Stack Abuse, https://stackabuse.com/removing-stop-words-from-strings-in-python/, Helped me understand how to remove stop words from a document
+Sci Py, https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.tolist.html, Helped me understand how to convert an array data structure into a list
+Text Analytics with Python: A Practitioner's Guide to Natural Language Processing, Second Edition, Helped me understand how to implement the text rank algorithm 
+Stack Overflow, https://stackoverflow.com/questions/46154561/remove-zero-width-space-unicode-character-from-python-string, Helped me understand how to remove unicode characters from a string
 
 

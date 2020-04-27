@@ -2,19 +2,16 @@ import json
 import spacy
 import nltk
 import os
+import argparse
 from random import Random
 import math
 import numpy as np
-import unicodedata
-# import pandas as pd
 import networkx
 import glob
 from pathlib import Path
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
-# from sklearn.metrics import silhouette_samples, silhouette_score
-# from yellowbrick.cluster import KElbowVisualizer
 
 def getAllFiles(directory, fileGlob):
     # Get all of the subdirectories of the inputted directory
@@ -117,7 +114,7 @@ def clusterDocuments(totalText, sampledFiles):
     X = vectorizer.fit_transform(totalText)
 
     # Perform k-means clustering with a given number of clusters
-    numClusters = 3
+    numClusters = 8
     km = KMeans(n_clusters=numClusters)
     km.fit(X)
 
@@ -205,39 +202,51 @@ def summarizeClusters(documentClusters):
         # Append the list of the top sentences to the list of summarized clusters
         summarizedClusterSentences.append(tempSummarizedClusterSentences)
 
+    # Set the path of the summary file
     summaryPath = "C:/Users/Creighton DeKalb/Documents/DSA 5293/Project2/cs5293sp20-project2/SUMMARY.md"
     
+    # Open the file to write
     summaryFile = open(summaryPath, "w")
 
-    summaryFile.write("This is the summary file for the clustered documents. The summary was generated using the text rank algorithm. \n")
+    # Write the header of the summery file
+    summaryFile.write("This is the summary file for the clustered documents. The summary was generated using the text rank algorithm as provided in Text Analytics with Python: A Practitioner's Guide to Natural Language Processing, Second Edition. \n")
 
+    # Parse through each cluster
     for i in range(len(summarizedClusterSentences)):
         summaryFile.write("\n")
         summaryFile.write("The top 10 sentences for cluster " + str(i) + " are: \n\n")
+        
+        # Parse through eac hsentence in the cluster
         for j in range(len(summarizedClusterSentences[i])):
+            # Remove any unicode characters from the sentence and write it to the summary
             summaryFile.write(str(str(summarizedClusterSentences[i][j]).encode('ascii', 'ignore').decode("utf-8")))
             summaryFile.write(" \n")
-        print("\n\n")
 
+    # Close the file
     summaryFile.close()
-
+    
     return summarizedClusterSentences
 
-directory = "C:/Users/Creighton DeKalb/Documents/DSA 5293/Project2"
+def main(globType):
 
-totalFiles = getAllFiles(directory, '*.json')
+    directory = "C:/Users/Creighton DeKalb/Documents/DSA 5293/Project2"
 
-sampledFiles = getRandomFiles(totalFiles, 0.0001)
+    totalFiles = getAllFiles(directory, globType)
 
-totalText = extractText(sampledFiles)
+    sampledFiles = getRandomFiles(totalFiles, 0.001)
 
-documentClusters = clusterDocuments(totalText, sampledFiles)
+    totalText = extractText(sampledFiles)
 
-summarizedClusterSentences = summarizeClusters(documentClusters)
+    documentClusters = clusterDocuments(totalText, sampledFiles)
 
-
-
-
+    summarizedClusterSentences = summarizeClusters(documentClusters)
     
-
-
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input", type=str, required=True, 
+        help="The incident summary url.")
+     
+    args = parser.parse_args()
+    if args.input:
+        globType = args.input[0]
+        main(globType)

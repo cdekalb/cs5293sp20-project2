@@ -8,6 +8,11 @@ pylint = "*"
 
 [packages]
 spacy = "*"
+sklearn = "*"
+yellowbrick = "*"
+nltk = "*"
+pandas = "*"
+networkx = "*"
 
 [requires]
 python_version = "3.8"
